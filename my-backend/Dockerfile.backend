@@ -1,0 +1,20 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+COPY ./src/seedData.json ./dist/src/seedData.json
+
+RUN npx prisma generate
+
+RUN npm run build
+
+# RUN npx prisma migrate deploy
+
+EXPOSE 3005
+CMD ["npm", "start"]
